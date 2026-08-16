@@ -10,33 +10,131 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
+import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuthenticatedComprasRouteImport } from './routes/_authenticated/compras'
+import { Route as AuthenticatedFaturaRouteImport } from './routes/_authenticated/fatura'
+import { Route as AuthenticatedInicioRouteImport } from './routes/_authenticated/inicio'
+import { Route as AuthenticatedNovaCompraRouteImport } from './routes/_authenticated/nova-compra'
+import { Route as AuthenticatedPessoasIndexRouteImport } from './routes/_authenticated/pessoas.index'
+import { Route as AuthenticatedPessoasIdRouteImport } from './routes/_authenticated/pessoas.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthenticatedRouteRoute = AuthenticatedRouteRouteImport.update({
+  id: '/_authenticated',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuthenticatedComprasRoute = AuthenticatedComprasRouteImport.update({
+  id: '/compras',
+  path: '/compras',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedFaturaRoute = AuthenticatedFaturaRouteImport.update({
+  id: '/fatura',
+  path: '/fatura',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedInicioRoute = AuthenticatedInicioRouteImport.update({
+  id: '/inicio',
+  path: '/inicio',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedNovaCompraRoute = AuthenticatedNovaCompraRouteImport.update({
+  id: '/nova-compra',
+  path: '/nova-compra',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const AuthenticatedPessoasIndexRoute =
+  AuthenticatedPessoasIndexRouteImport.update({
+    id: '/pessoas/',
+    path: '/pessoas/',
+    getParentRoute: () => AuthenticatedRouteRoute,
+  } as any)
+const AuthenticatedPessoasIdRoute = AuthenticatedPessoasIdRouteImport.update({
+  id: '/pessoas/$id',
+  path: '/pessoas/$id',
+  getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/compras': typeof AuthenticatedComprasRoute
+  '/fatura': typeof AuthenticatedFaturaRoute
+  '/inicio': typeof AuthenticatedInicioRoute
+  '/nova-compra': typeof AuthenticatedNovaCompraRoute
+  '/pessoas/$id': typeof AuthenticatedPessoasIdRoute
+  '/pessoas/': typeof AuthenticatedPessoasIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/compras': typeof AuthenticatedComprasRoute
+  '/fatura': typeof AuthenticatedFaturaRoute
+  '/inicio': typeof AuthenticatedInicioRoute
+  '/nova-compra': typeof AuthenticatedNovaCompraRoute
+  '/pessoas/$id': typeof AuthenticatedPessoasIdRoute
+  '/pessoas': typeof AuthenticatedPessoasIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
+  '/auth': typeof AuthRoute
+  '/_authenticated/compras': typeof AuthenticatedComprasRoute
+  '/_authenticated/fatura': typeof AuthenticatedFaturaRoute
+  '/_authenticated/inicio': typeof AuthenticatedInicioRoute
+  '/_authenticated/nova-compra': typeof AuthenticatedNovaCompraRoute
+  '/_authenticated/pessoas/$id': typeof AuthenticatedPessoasIdRoute
+  '/_authenticated/pessoas/': typeof AuthenticatedPessoasIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/auth'
+    | '/compras'
+    | '/fatura'
+    | '/inicio'
+    | '/nova-compra'
+    | '/pessoas/$id'
+    | '/pessoas/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/auth'
+    | '/compras'
+    | '/fatura'
+    | '/inicio'
+    | '/nova-compra'
+    | '/pessoas/$id'
+    | '/pessoas'
+  id:
+    | '__root__'
+    | '/'
+    | '/_authenticated'
+    | '/auth'
+    | '/_authenticated/compras'
+    | '/_authenticated/fatura'
+    | '/_authenticated/inicio'
+    | '/_authenticated/nova-compra'
+    | '/_authenticated/pessoas/$id'
+    | '/_authenticated/pessoas/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
+  AuthRoute: typeof AuthRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +146,90 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_authenticated': {
+      id: '/_authenticated'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AuthenticatedRouteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_authenticated/compras': {
+      id: '/_authenticated/compras'
+      path: '/compras'
+      fullPath: '/compras'
+      preLoaderRoute: typeof AuthenticatedComprasRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/fatura': {
+      id: '/_authenticated/fatura'
+      path: '/fatura'
+      fullPath: '/fatura'
+      preLoaderRoute: typeof AuthenticatedFaturaRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/inicio': {
+      id: '/_authenticated/inicio'
+      path: '/inicio'
+      fullPath: '/inicio'
+      preLoaderRoute: typeof AuthenticatedInicioRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/nova-compra': {
+      id: '/_authenticated/nova-compra'
+      path: '/nova-compra'
+      fullPath: '/nova-compra'
+      preLoaderRoute: typeof AuthenticatedNovaCompraRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/pessoas/': {
+      id: '/_authenticated/pessoas/'
+      path: '/pessoas'
+      fullPath: '/pessoas/'
+      preLoaderRoute: typeof AuthenticatedPessoasIndexRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/_authenticated/pessoas/$id': {
+      id: '/_authenticated/pessoas/$id'
+      path: '/pessoas/$id'
+      fullPath: '/pessoas/$id'
+      preLoaderRoute: typeof AuthenticatedPessoasIdRouteImport
+      parentRoute: typeof AuthenticatedRouteRoute
+    }
   }
 }
 
+interface AuthenticatedRouteRouteChildren {
+  AuthenticatedComprasRoute: typeof AuthenticatedComprasRoute
+  AuthenticatedFaturaRoute: typeof AuthenticatedFaturaRoute
+  AuthenticatedInicioRoute: typeof AuthenticatedInicioRoute
+  AuthenticatedNovaCompraRoute: typeof AuthenticatedNovaCompraRoute
+  AuthenticatedPessoasIdRoute: typeof AuthenticatedPessoasIdRoute
+  AuthenticatedPessoasIndexRoute: typeof AuthenticatedPessoasIndexRoute
+}
+
+const AuthenticatedRouteRouteChildren: AuthenticatedRouteRouteChildren = {
+  AuthenticatedComprasRoute: AuthenticatedComprasRoute,
+  AuthenticatedFaturaRoute: AuthenticatedFaturaRoute,
+  AuthenticatedInicioRoute: AuthenticatedInicioRoute,
+  AuthenticatedNovaCompraRoute: AuthenticatedNovaCompraRoute,
+  AuthenticatedPessoasIdRoute: AuthenticatedPessoasIdRoute,
+  AuthenticatedPessoasIndexRoute: AuthenticatedPessoasIndexRoute,
+}
+
+const AuthenticatedRouteRouteWithChildren =
+  AuthenticatedRouteRoute._addFileChildren(AuthenticatedRouteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
+  AuthRoute: AuthRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
