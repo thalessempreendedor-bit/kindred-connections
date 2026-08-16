@@ -17,7 +17,6 @@ import { StatusParcela } from "@/components/StatusParcela";
 import { useAtualizarTudo, useParcelas, usePessoas, mesmoMes } from "@/hooks/useDados";
 import { marcarParcela, type ParcelaCompleta } from "@/lib/data";
 import { dataBr, hojeIso, mesAnoDe, moeda, statusVencimento } from "@/lib/format";
-import { criarDadosDeExemplo } from "@/lib/seed";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -42,26 +41,9 @@ function Inicio() {
   const { data: parcelas, isLoading } = useParcelas();
   const { data: pessoas = [] } = usePessoas();
   const atualizar = useAtualizarTudo();
-  const [semeando, setSemeando] = useState(false);
 
   const hoje = hojeIso();
   const { ano, mes } = mesAnoDe(hoje);
-
-  useEffect(() => {
-    if (isLoading || !parcelas || semeando) return;
-    if (parcelas.length === 0 && pessoas.length === 0) {
-      setSemeando(true);
-      criarDadosDeExemplo()
-        .then((criou) => {
-          if (criou) {
-            atualizar();
-            toast.success("Criamos alguns dados de exemplo para você explorar ✨");
-          }
-        })
-        .catch(() => undefined);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isLoading, parcelas, pessoas]);
 
   const totais = useMemo(() => {
     const lista = parcelas ?? [];
